@@ -1,0 +1,121 @@
+<!--
+Element for creating a colorful stat card
+
+##### Example
+
+    <app-color-card cardtitle="Revenue" icon="fa-usd" ></app-color-card>
+
+@element app-color-card
+@blurb Element for creating a colorful stat card
+@status alpha
+@homepage http://the-control-group.github.io/app-color-card
+-->
+<polymer-element name="app-color-card">
+  <template>
+    <link href="app-color-card.css" rel="stylesheet">
+    <style> @import url('//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css');   </style>
+
+    <div id="card"><i id="icon" class="fa {{icon}}"></i>
+      <h4>{{cardtitle}}</h4>
+      <div style="clear:both"></div>
+      <p>{{description}}</p>
+      <a id="view_more" class="{{ {hidden: !href} | tokenList }}" href="{{href}}"><span>View More</span><i class="fa fa-arrow-circle-o-right"></i></a>
+    </div>
+
+  </template>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script>
+    Polymer('app-color-card', {
+      publish: {
+        /**
+         * color of the card
+         * can be any css color style
+         *
+         * @attribute color
+         * @type String
+         * @default "#44B6AE"
+         */
+        color: { value: '#44B6AE', reflect: true },
+
+        /**
+         * title of the card
+         *
+         * @attribute title
+         * @type String
+         * @default 0
+         */
+        cardtitle: { value: 0, reflect: true },
+
+        /**
+         * description of the card
+         *
+         * @attribute description
+         * @type String
+         */
+        description: { value: '', reflect: true },
+
+        /**
+         * The font awesome icon
+         * for the card
+         *
+         * __see:__ [fontawesome](http://fontawesome.io/icons/)
+         *
+         * @attribute icon
+         * @type String
+         */
+        icon: { value: 'fa-info', reflect: true },
+
+        /**
+         * link for the view_more link
+         *
+         * @attribute href
+         * @type String
+         */
+        href: { value: '', reflect: true }
+      },
+
+      ready: function() {
+        this.style.width = this.width;
+        this.style.background = this.color;
+      },
+      domReady: function(){
+        var cardElement = this.$.card;
+        var cardElementIcon = this.$.icon;
+        var lighter_color = ColorLuminance(this.color, 0.2);
+        cardElementIcon.style.color = lighter_color;
+      },
+      colorChanged: function(){
+        this.style.background = this.color;
+      },
+    });
+
+    //**************************************************
+    //
+    // ColorLuminance
+    // returns a Hex value lighter or darker than the original
+    // Pass the Hex Color '#0099cb', and a value 1.0 to -1.0 to lighten or darken
+    //
+    //**************************************************
+
+    function ColorLuminance(hex, lum) {
+      // console.log(arguments)
+      // validate hex string
+      hex = String(hex).replace(/[^0-9a-f]/gi, '');
+      if (hex.length < 6) {
+        hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+      }
+      lum = lum || 0;
+
+      // convert to decimal and change luminosity
+      var rgb = "#", c, i;
+      for (i = 0; i < 3; i++) {
+        c = parseInt(hex.substr(i*2,2), 16);
+        c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+        rgb += ("00"+c).substr(c.length);
+      }
+
+      return rgb;
+    }
+
+  </script>
+</polymer-element>

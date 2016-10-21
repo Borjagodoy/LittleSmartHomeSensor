@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>data-sensors demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../polymerfire/firebase-app.html">
+    <link rel="import" href="../data-sensors.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+
+    </style>
+</head>
+
+<body>
+
+    <div class="vertical-section-container centered">
+        <h3>Basic data-sensors Demo</h3>
+        <demo-snippet>
+            <template>
+            <firebase-app
+              name="sensors"
+              api-key= "AIzaSyB0almfvV1wqUBkYoP2wnqCLxyKxqIwReY"
+              auth-domain= "littlesmarthome.firebaseapp.com"
+              database-url= "https://littlesmarthome.firebaseio.com"
+              storage-bucket= ""
+              messaging-senderId="745426975933"
+          ></firebase-app>
+          <data-sensors  app-name="sensors" path="/humedad"></data-sensors>
+        </template>
+        </demo-snippet>
+    </div>
+
+</body>
+
+</html>

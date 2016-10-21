@@ -1,0 +1,54 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymerfire/firebase-document.html">
+<link rel="import" href="../app-color-card/app-color-card.html">
+
+<!-- `data-sensors` 
+@demo demo/index.html -->
+
+<dom-module id="data-sensors">
+    <template>
+
+		<style>
+			:host {
+				display: block;
+			}
+            .data{
+              display: flex;
+              -webkit-box-shadow: 1px 0px 31px 0px rgba(0,0,0,0.34);
+              -moz-box-shadow: 1px 0px 31px 0px rgba(0,0,0,0.34);
+              box-shadow: 1px 0px 31px 0px rgba(0,0,0,0.34);
+            }
+		</style>
+		<firebase-document id ="fb" app-name="{{appName}}" path="{{path}}" data="{{dataSensor}}"></firebase-document>
+        <app-color-card color="#44B6AE" card_title="45,454" description="orders" icon="fa-shopping-cart" view_more view_more_link="#_"></app-color-card>
+
+	</template>
+
+    <script>
+        Polymer({
+
+            is: 'data-sensors',
+
+            properties: {
+                dataSensor: {
+                    type: Object,
+                    value: {},
+                    observer: 'data'
+                },
+                appName: {
+                    type: String
+                },
+                path: {
+                    type: String,
+                    value: '/',
+                    observer: 'data'
+                },
+            },
+            data: function() {
+                console.log(this.dataSensor);
+                console.log(this.path);
+                window.pepe = this.$.fb
+            }
+        });
+    </script>
+</dom-module>

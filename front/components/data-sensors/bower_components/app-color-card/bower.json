@@ -1,0 +1,23 @@
+{
+  "name": "app-color-card",
+  "version": "0.0.1",
+  "authors": [
+    "Tony Lea <tony@devdojo.com>"
+  ],
+  "description": "An element for creating simple color cards of metric or display data",
+  "keywords": "polymer, web-components, color card, color-card, app color card, app-color-card, card",
+  "main": "app-color-card.html",
+  "license": "MIT",
+  "homepage": "https://github.com/the-control-group/app-color-card",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.3.3",
+    "polymer-test-tools": "Polymer/polymer-test-tools#~0.3.3"
+  }
+}
