@@ -31,7 +31,20 @@
               storage-bucket= ""
               messaging-senderId="745426975933"
           ></firebase-app>
-          <data-sensors  app-name="sensors" path="/humedad"></data-sensors>
+          <data-sensors
+            app-name="sensors"
+            title="Temperature"
+            icon="./temperature-maaterial.png"
+            path="/temperature"
+            metric="º">
+          </data-sensors>
+          <data-sensors
+            app-name="sensors"
+            title="Ligth Bedroom"
+            icon="./lightbulb.png"
+            path="/LedTemperature"
+            is-actuator>
+          </data-sensors>
         </template>
         </demo-snippet>
     </div>

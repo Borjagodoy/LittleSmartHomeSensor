@@ -1,0 +1,6 @@
+{
+  "name": "landing-smart-home",
+  "short_name": "landing-smart-home",
+  "start_url": "/",
+  "display": "standalone"
+}

@@ -1,28 +1,80 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../polymerfire/firebase-document.html">
-<link rel="import" href="../app-color-card/app-color-card.html">
-
-<!-- `data-sensors` 
+<link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
+<!-- `data-sensors`
 @demo demo/index.html -->
 
 <dom-module id="data-sensors">
-    <template>
+  <template>
+  	<style>
+  		:host {
+  			display: block;
+  		}
+      .data{
+        font-size: 6em;
+        width: 60%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      paper-material{
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .icon{
+        display: flex;
+        height: 70%;
+        width: 50%;
+        align-items: center;
+        justify-content: flex-end;
+      }
+      .icon iron-icon{
+        height: 100%;
+        width: 90%;
+      }
+      .button{
+        width: 50%;
+        justify-content: center;
+      }
+      paper-toggle-button {
+        --paper-toggle-button-checked-bar-color: #25dd38;
+        --paper-toggle-button-checked-button-color:  #25dd38;
+        --paper-toggle-button-checked-ink-color: #25acdf;
+        --paper-toggle-button-unchecked-bar-color:  #25acdf;
+        --paper-toggle-button-unchecked-button-color:  #25acdf;
+        --paper-toggle-button-unchecked-ink-color:#25acdf;
+      }
+      .title{
+        display:flex;
+        justify-content: center
+      }
 
-		<style>
-			:host {
-				display: block;
-			}
-            .data{
-              display: flex;
-              -webkit-box-shadow: 1px 0px 31px 0px rgba(0,0,0,0.34);
-              -moz-box-shadow: 1px 0px 31px 0px rgba(0,0,0,0.34);
-              box-shadow: 1px 0px 31px 0px rgba(0,0,0,0.34);
-            }
-		</style>
-		<firebase-document id ="fb" app-name="{{appName}}" path="{{path}}" data="{{dataSensor}}"></firebase-document>
-        <app-color-card color="#44B6AE" card_title="45,454" description="orders" icon="fa-shopping-cart" view_more view_more_link="#_"></app-color-card>
 
-	</template>
+	</style>
+	<firebase-document
+    app-name="{{appName}}"
+    path="{{path}}"
+    data="{{dataSensor}}">
+  </firebase-document>
+  <h3 class="title">{{title}}</h3>
+  <paper-material elevation="1">
+    <div class="icon">
+      <iron-icon src="{{icon}}"></iron-icon>
+    </div>
+    <template is="dom-if" if={{isActuator}}>
+      <paper-toggle-button class="button" active={{dataSensor}}></paper-toggle-button>
+    </template>
+    <template is="dom-if" if={{!isActuator}}>
+      <div class="data">
+        <p>{{dataSensor}}{{metric}}</p>
+      </div>
+    </template>
+  </paper-material>
+</template>
 
     <script>
         Polymer({
@@ -30,25 +82,41 @@
             is: 'data-sensors',
 
             properties: {
+              valueActuator:{
+                type: String,
+                observer: 'changeActuator'
+              },
                 dataSensor: {
-                    type: Object,
-                    value: {},
-                    observer: 'data'
+                    type: Number,
+                    value: "..."
                 },
                 appName: {
                     type: String
                 },
                 path: {
-                    type: String,
-                    value: '/',
-                    observer: 'data'
+                    type: String
                 },
+                icon:{
+                  type: String
+                },
+                metric:{
+                  type:String
+                },
+                isActuator:{
+                  type: Boolean,
+                  value: false
+                }
             },
-            data: function() {
-                console.log(this.dataSensor);
-                console.log(this.path);
-                window.pepe = this.$.fb
+            changeActuator: function(){
+              var val = 0;
+              if(this.valueActuator) val = 1;
+              else val=0;
+              console.log(val);
+              this.set('dataSensor', val )
+            },
+            initValActuator: function(dataSensor){
+              return dataSensor;
             }
-        });
+          });
     </script>
 </dom-module>
