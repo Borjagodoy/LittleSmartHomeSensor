@@ -10,10 +10,10 @@
 #include <FirebaseArduino.h>
 
 // Set these to run example.
-#define FIREBASE_HOST "littlesmarthome.firebaseio.com"
-#define FIREBASE_AUTH "RtHLWjhpJ2UuaiZNlDtwJvIAri2vnrGsXvoOKY8x"
-#define WIFI_SSID "MOVISTAR_0131"
-#define WIFI_PASSWORD "NwHkVaR8qN5NygCCEzNh"
+#define FIREBASE_HOST "YOUR_HOST"
+#define FIREBASE_AUTH "Your_Pass_Auth_Firebase"
+#define WIFI_SSID "yout_SSID"
+#define WIFI_PASSWORD "Your_password_wifi"
 
 
 DHT dht(DHTPIN, DHTTYPE);
