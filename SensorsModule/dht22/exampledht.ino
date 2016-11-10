@@ -18,11 +18,42 @@
 
 DHT dht(DHTPIN, DHTTYPE);
 
+double temperaturaCelsius;
+double temperaturaFarenheit;
+double humedad;
+bool eventoLanzado;
+
+
 void setup() {
   Serial.begin(9600);
   Serial.println("Iniciando...");
   dht.begin();
-  // connect to wifi.
+  
+  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
+  Firebase.set("temperature", 0);
+  Firebase.set("humedad", 0);
+  
+  temperaturaCelsius = 0;
+  temperaturaFarenheit = 0;
+  humedad = 0;
+  iniciarConexionWifi();
+}
+
+
+void loop() {
+  if(!eventoLanzado){
+    leerDatosSensor();
+    actualizarDatos();
+    mostrarDatos();
+    
+    esperar(20000);
+  } else {
+    comprobarEvento(); // wifi lose, new temp, ...
+  }
+}
+
+/* Si no se conecta a una red wifi, que cree una propia. */
+void iniciarConexionWifi(){
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("connecting");
   while (WiFi.status() != WL_CONNECTED) {
@@ -32,26 +63,41 @@ void setup() {
   Serial.println();
   Serial.print("connected: ");
   Serial.println(WiFi.localIP());
-
-  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
-  Firebase.set("temperature", 0);
-  Firebase.set("humedad", 0);
 }
-void loop() {
-  delay(2000);
-  float h = dht.readHumidity(); //Leemos la Humedad
-  float t = dht.readTemperature(); //Leemos la temperatura en grados Celsius
-  float f = dht.readTemperature(true); //Leemos la temperatura en grados Fahrenheit
-  //--------Enviamos las lecturas por el puerto serial-------------
+
+void leerDatosSensor(){
+  humedad = dht.readHumidity();
+  temperaturaCelsius = dht.readTemperature();
+  temperaturaFarenheit = dht.readTemperature(true);
+}
+
+void actualizarDatos(){
+  Firebase.setInt("humedad", humedad);
+  Firebase.setInt("temperature", temperaturaCelsius);
+}
+
+void mostrarDatos(){
   Serial.print("Humedad ");
-  Serial.print(h);
-  Firebase.setInt("humedad", h);
+  Serial.print(humedad);
   Serial.print(" %t");
   Serial.print("Temperatura: ");
-  Firebase.setInt("temperature", t);
-  Serial.print(t);
+  Serial.print(temperaturaCelsius);
   Serial.print(" *C ");
-  Serial.print(f);
+  Serial.print(temperaturaFarenheit);
   Serial.println(" *F");
 }
 
+void esperar(int tiempo){
+  int i = 0;
+  
+  while(i<tiempo and !eventoLanzado){
+    delay(1000);
+    eventoLanzado = hayCambios();
+    i+=1000;
+  }
+}
+
+
+bool hayCambios(){
+  
+}
